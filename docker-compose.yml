@@ -1,0 +1,71 @@
+version: "3.3"
+services:
+  nginx:
+    build:
+      context: ./nginx/
+    image: nginx-1.24.0:v1
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    container_name: nginx-1.24.0-modded
+    volumes:
+      - ./data/wwwroot:/var/www/html
+      - ./data/logs/nginx:/var/log/nginx
+      - ./data/configs/nginx/vhost:/usr/local/nginx/conf/vhost
+      - ./data/configs/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - ./data/ssl:/usr/local/nginx/ssl
+    networks:
+      - LNMP-Stack
+    
+  php-fpm:
+    build:
+      context: ./php-fpm/
+    image: php:8.1.25-fpm
+    restart: unless-stopped
+    container_name: php-fpm-8.1.25
+    user: www:www
+    volumes:
+      - ./data/wwwroot:/var/www/html
+      - ./data/logs/php:/var/log/php
+      - ./data/configs/php/php.ini:/usr/local/etc/php/php.ini
+      #- ./data/configs/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    depends_on:
+      - nginx
+    networks:
+      - LNMP-Stack
+
+  mysql:
+    build: 
+      context: ./mysql/
+    image: mysql:5.7.42
+    restart: unless-stopped
+    container_name: mysql-5.7.42
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./data/configs/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./data/logs/mysql:/var/log/mysql
+      - ./data/mysqlback:/data/mysqlback
+    environment:
+        MYSQL_ROOT_PASSWORD: <YOUR PASSWORD>
+    networks:
+      - LNMP-Stack
+  
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    container_name: adminer
+    # ports:
+    #   - 8080:8080
+    networks:
+      - LNMP-Stack
+  
+  memcached:
+    image: memcached:1.6.22
+    restart: unless-stopped
+    container_name: memcached
+    networks:
+      - LNMP-Stack
+
+networks:
+  LNMP-Stack:
