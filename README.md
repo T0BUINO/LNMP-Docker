@@ -15,6 +15,8 @@ docker compose up --build -d
 But if you want to specify the version of `NGINX/PHP/MYSQL`, just edit the image name in Dockerfile in each folder. Noted that the NGINX is built from source, so you need to visit [`NGINX Download`](https://nginx.org/en/download.html) to obtain the download link for NGINX.
 
 # Tips
+> ⚠️ Strongly suggest that do not use this project directly for you production environment. You should test before you deploy any applications.
+
 ## How to add modules for Nginx
 You need to compile moudules from its source, then modify the args of `./configure` which starts from the `line 14` of the Dockerfile.
 
