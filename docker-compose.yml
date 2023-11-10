@@ -47,7 +47,7 @@ services:
       - ./data/logs/mysql:/var/log/mysql
       - ./data/mysqlback:/data/mysqlback
     environment:
-        MYSQL_ROOT_PASSWORD: <YOUR PASSWORD>
+        MYSQL_ROOT_PASSWORD: root-password.
     networks:
       - LNMP-Stack
   
