@@ -1,2 +1,6 @@
-/data
+/data/logs
+/data/mysql
+/data/mysqlback
+/data/ssl
+/data/wwwroot
 *.old

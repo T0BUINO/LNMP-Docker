@@ -11,7 +11,7 @@ services:
     container_name: nginx-1.24.0-modded
     volumes:
       - ./data/wwwroot:/var/www/html
-      - ./data/logs/nginx:/var/log/nginx
+      - ./data/logs/nginx:/usr/local/nginx/logs
       - ./data/configs/nginx/vhost:/usr/local/nginx/conf/vhost
       - ./data/configs/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
       - ./data/ssl:/usr/local/nginx/ssl
@@ -43,7 +43,7 @@ services:
     container_name: mysql-5.7.42
     volumes:
       - ./data/mysql:/var/lib/mysql
-      - ./data/configs/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      # - ./data/configs/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
       - ./data/logs/mysql:/var/log/mysql
       - ./data/mysqlback:/data/mysqlback
     environment:
