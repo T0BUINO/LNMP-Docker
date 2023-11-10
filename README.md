@@ -13,3 +13,10 @@ cd LNMP-Docker
 docker compose up --build -d
 ```
 But if you want to specify the version of `NGINX/PHP/MYSQL`, just edit the image name in Dockerfile in each folder. Noted that the NGINX is built from source, so you need to visit [`NGINX Download`](https://nginx.org/en/download.html) to obtain the download link for NGINX.
+
+# Tips
+## How to add modules for Nginx
+You need to compile moudules from its source, then modify the args of `./configure` which starts from the `line 14` of the Dockerfile.
+
+## How to add extensions for PHP-fpm
+You could checkout the official document(in hub.docker.com). And maybe have a look at my Dockerfile.
