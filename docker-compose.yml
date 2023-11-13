@@ -30,6 +30,7 @@ services:
       - ./data/wwwroot:/var/www/html
       - ./data/logs/php:/var/log/php
       - ./data/configs/php/php.ini:/usr/local/etc/php/php.ini
+      - ./data/configs/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./data/configs/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     environment:
       - TZ=Etc/UTC
