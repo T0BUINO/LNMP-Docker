@@ -1,36 +1,20 @@
 FROM debian:bullseye as builder
 WORKDIR /nginx-build
 
-RUN set -x; buildDeps='build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev libjemalloc-dev wget git ca-certificates' \
+COPY env.list ./
+
+RUN set -x; . ./env.list \
     && apt update \
-    && apt install -y $buildDeps --no-install-recommends --no-install-suggests \
-    && wget https://nginx.org/download/nginx-1.24.0.tar.gz \
-    && git clone https://github.com/google/ngx_brotli \
-    && cd ngx_brotli \
-    && git submodule update --init \
-    && cd .. \
-    && tar xzvf nginx-1.24.0.tar.gz \
+    && apt install -y $build_deps --no-install-recommends --no-install-suggests \
+    && echo $wget_list | xargs -n 1 wget \
+    && bash -c "$brotli_install" \
+    && for file in *.tar.gz; do tar -zxf "$file"; done \
     && cd nginx-1.24.0 \
     && ./configure --prefix=/usr/local/nginx \
         --user=www --group=www \ 
-        --with-http_stub_status_module \
-        --with-http_sub_module \
-        --with-http_v2_module \
-        --with-http_ssl_module \
-        --with-stream \
-        --with-stream_ssl_preread_module \
-        --with-stream_ssl_module \
-        --with-http_gzip_static_module \
-        --with-http_realip_module \
-        --with-http_flv_module \
-        --with-http_mp4_module \
-        --with-pcre \
-        --with-pcre-jit \
-        --with-ld-opt=-ljemalloc \
-        --add-module=../ngx_brotli \
+        $module_list \
     && make \
     && make install \
-    && rm -rf /nginx-build \
     && mkdir /lib-to-copy \
     && ldd /usr/local/nginx/sbin/nginx | grep '=>' | cut -d '>' -f2 | cut -d '(' -f1 | cut -d ' ' -f2 > /lib.list \
     && sed -i '/^\/lib\/x86_64-linux-gnu\//d' /lib.list \
