@@ -18,7 +18,7 @@ But if you want to specify the version of `NGINX/PHP/MYSQL`, just edit the image
 > ⚠️ Strongly suggest that do not use this project directly for you production environment. You should test before you deploy any applications.
 
 ## How to add modules for Nginx
-Basically production-ready modules can be easily downloaded and using `--add-module=...` to compile, and you should edit the module's source file link and `./configure` arguments in `env.list` file.
+Check out at NGINX's Dockerfile, and you will find things you could change in the `env.list` file.
 
 ## How to add extensions for PHP-fpm
 You could checkout the official document(in hub.docker.com). And maybe have a look at my Dockerfile.
