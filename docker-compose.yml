@@ -2,7 +2,8 @@ version: "3.3"
 services:
   nginx:
     build:
-      context: ./nginx/
+      context: ./dockerfiles
+      dockerfile: Dockerfile.nginx
     image: nginx-1.24.0:v1
     ports:
       - "80:80"
@@ -22,7 +23,8 @@ services:
     
   php-fpm:
     build:
-      context: ./php-fpm/
+      context: ./dockerfiles
+      dockerfile: Dockerfile.php-fpm
     image: php:8.1.25-fpm
     restart: unless-stopped
     container_name: php-fpm-8.1.25
@@ -41,7 +43,8 @@ services:
 
   mysql:
     build: 
-      context: ./mysql/
+      context: ./dockerfiles
+      dockerfile: Dockerfile.mysql
     image: mysql:5.7.42
     restart: unless-stopped
     container_name: mysql-5.7.42
